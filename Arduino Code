@@ -1,0 +1,49 @@
+//Arduino Code
+
+/*
+  SCIENTIST BENIEL'S LAB
+  MQ-135 GAS DETECTOR
+*/
+
+int Input = A0;       // MQ-135 analog output
+int R_LED = 2;        // Red LED
+int G_LED = 3;        // Green LED
+int Buzzer = 4;       // Buzzer
+
+int val = 0;          // Sensor reading
+int MAX = 400;        // Gas detection threshold
+
+void setup() {
+  Serial.begin(9600);
+
+  pinMode(Input, INPUT);
+  pinMode(R_LED, OUTPUT);
+  pinMode(G_LED, OUTPUT);
+  pinMode(Buzzer, OUTPUT);
+
+  Serial.println("MQ-135 Gas Detector Started");
+}
+
+void loop() {
+  val = analogRead(Input);
+
+  Serial.print("MQ-135 Sensor Value: ");
+  Serial.println(val);
+
+  if (val >= MAX) {
+    digitalWrite(R_LED, HIGH);
+    digitalWrite(G_LED, LOW);
+    digitalWrite(Buzzer, HIGH);
+
+    Serial.println("WARNING: GAS LEVEL HIGH!");
+  }
+  else {
+    digitalWrite(R_LED, LOW);
+    digitalWrite(G_LED, HIGH);
+    digitalWrite(Buzzer, LOW);
+
+    Serial.println("STATUS: NORMAL");
+  }
+
+  delay(1000);
+}
